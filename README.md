@@ -1,6 +1,7 @@
 # 3Teir-Terraform
 
 Terraform을 사용하여 AWS에 3계층(3-Tier) 아키텍처를 구축하는 프로젝트입니다.
+![test 구성도 drawio (2)](https://github.com/user-attachments/assets/46453d70-ed1b-4a97-9e12-ff30fc93d625)
 
 ## 📁 프로젝트 구조
 
