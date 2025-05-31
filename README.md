@@ -47,18 +47,54 @@ Terraform을 사용하여 AWS에 3계층(3-Tier) 아키텍처를 구축하는 �
 - **데이터베이스 보안 그룹 (`db_sg`)**:
   - 포트 3306(MySQL)을 애플리케이션 보안 그룹에서만 접근 가능하도록 설정합니다.
 
+
 ## ✅ 배포 순서
 
 | 단계 | 설명 | 적용 명령 |
-| --- | --- | --- |
-| 1️⃣ | VPC, IGW, Public RT 생성 | ```bash<br>terraform apply -target=aws_vpc.main -auto-approve<br>terraform apply -target=aws_internet_gateway.igw -auto-approve<br>terraform apply -target=aws_route_table.public_rt -auto-approve<br>``` |
-| 2️⃣ | Subnet 3개 생성 + Public 연결 | ```bash<br>terraform apply -target=aws_subnet.public -auto-approve<br>terraform apply -target=aws_subnet.private_was -auto-approve<br>terraform apply -target=aws_subnet.private_db-a -auto-approve<br>terraform apply -target=aws_subnet.private_db-c -auto-approve<br>terraform apply -target=aws_route_table_association.public_assoc -auto-approve<br>``` |
-| 3️⃣ | NAT Gateway 생성 (WAS만 인터넷 접근) | ```bash<br>terraform apply -target=aws_eip.nat_eip -auto-approve<br>terraform apply -target=aws_nat_gateway.nat_gw -auto-approve<br>terraform apply -target=aws_route_table.private_rt_was -auto-approve<br>terraform apply -target=aws_route_table_association.was_assoc -auto-approve<br>``` |
-| 4️⃣ | 보안 그룹 3개 생성 | ```bash<br>terraform apply -target=aws_security_group.web_sg -auto-approve<br>terraform apply -target=aws_security_group.was_sg -auto-approve<br>terraform apply -target=aws_security_group.db_sg -auto-approve<br>``` |
-| 5️⃣ | EC2 인스턴스 (Web + WAS) | ```bash<br>terraform apply -target=aws_instance.web_server -auto-approve<br>terraform apply -target=aws_instance.was_server -auto-approve<br>``` |
-| 6️⃣ | RDS Subnet Group + RDS 인스턴스 생성 | ```bash<br>terraform apply -target=aws_db_subnet_group.rds_subnet_group -auto-approve<br>terraform apply -target=aws_db_instance.mysql_rds -auto-approve<br>``` |
-| 7️⃣ | ALB + Target Group + Listener 설정 | ```bash<br>terraform apply -target=aws_lb.web_alb -auto-approve<br>terraform apply -target=aws_lb_target_group.web_tg -auto-approve<br>terraform apply -target=aws_lb_listener.http_listener -auto-approve<br>terraform apply -target=aws_lb_target_group_attachment.web1 -auto-approve<br>``` |
-| 8️⃣ | 전체 상태 확인 | ```bash<br>terraform show<br># 또는<br>terraform output<br>``` |
+|------|------|-----------|
+| 1️⃣ | VPC, IGW, Public RT 생성 | ```bash
+terraform apply -target=aws_vpc.main -auto-approve
+terraform apply -target=aws_internet_gateway.igw -auto-approve
+terraform apply -target=aws_route_table.public_rt -auto-approve
+``` |
+| 2️⃣ | Subnet 3개 생성 + Public 연결 | ```bash
+terraform apply -target=aws_subnet.public -auto-approve
+terraform apply -target=aws_subnet.private_was -auto-approve
+terraform apply -target=aws_subnet.private_db-a -auto-approve
+terraform apply -target=aws_subnet.private_db-c -auto-approve
+terraform apply -target=aws_route_table_association.public_assoc -auto-approve
+``` |
+| 3️⃣ | NAT Gateway 생성 (WAS만 인터넷 접근) | ```bash
+terraform apply -target=aws_eip.nat_eip -auto-approve
+terraform apply -target=aws_nat_gateway.nat_gw -auto-approve
+terraform apply -target=aws_route_table.private_rt_was -auto-approve
+terraform apply -target=aws_route_table_association.was_assoc -auto-approve
+``` |
+| 4️⃣ | 보안 그룹 3개 생성 | ```bash
+terraform apply -target=aws_security_group.web_sg -auto-approve
+terraform apply -target=aws_security_group.was_sg -auto-approve
+terraform apply -target=aws_security_group.db_sg -auto-approve
+``` |
+| 5️⃣ | EC2 인스턴스 (Web + WAS) | ```bash
+terraform apply -target=aws_instance.web_server -auto-approve
+terraform apply -target=aws_instance.was_server -auto-approve
+``` |
+| 6️⃣ | RDS Subnet Group + RDS 인스턴스 생성 | ```bash
+terraform apply -target=aws_db_subnet_group.rds_subnet_group -auto-approve
+terraform apply -target=aws_db_instance.mysql_rds -auto-approve
+``` |
+| 7️⃣ | ALB + Target Group + Listener 설정 | ```bash
+terraform apply -target=aws_lb.web_alb -auto-approve
+terraform apply -target=aws_lb_target_group.web_tg -auto-approve
+terraform apply -target=aws_lb_listener.http_listener -auto-approve
+terraform apply -target=aws_lb_target_group_attachment.web1 -auto-approve
+``` |
+| 8️⃣ | 전체 상태 확인 | ```bash
+terraform show
+# 또는
+terraform output
+``` |
+
 
 ## 🧪 테스트 및 검증
 
