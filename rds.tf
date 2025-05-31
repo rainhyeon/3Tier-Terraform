@@ -2,7 +2,7 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
   subnet_ids = [aws_subnet.private_db_a.id,
-                aws_subnet.private_db_c.id]  # DB 전용 subnet 하나만 사용
+                aws_subnet.private_db_c.id] 
 
   tags = {
     Name = "rds-subnet-group"
